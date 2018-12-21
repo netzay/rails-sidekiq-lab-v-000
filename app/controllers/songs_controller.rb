@@ -22,6 +22,11 @@ class SongsController < ApplicationController
       render :new
     end
   end
+  
+  def upload
+    SongsWorker.perform_async(params[:leads].path)
+    redirect_to songs_path
+  end
 
   def upload
     CSV.foreach(params["file"].path, headers: true) do |song|
